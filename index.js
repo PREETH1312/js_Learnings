@@ -1,5 +1,5 @@
 const addNewCard = () => {
-    // get task data
+    // get task data 1
     const taskData ={
        id:'${date.now()}',
        title:document.getElementById("task title").value,
