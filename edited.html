@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="x-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task Management</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    body {
+      background-color: #ebf3ff;
+    }
+
+    .card-img {
+      max-height: 200px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Modal -->
+  <div class="modal fade" id="newtask" tabindex="-1" aria-labelledby="newtaskLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="newtaskLabel">Add New Task</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="ImageURL" class="form-label">Image URL</label>
+            <input type="url" class="form-control" id="ImageURL" placeholder="http://image.com/image.jpg" />
+          </div>
+          <div class="mb-3">
+            <label for="TaskTitle" class="form-label">Task Title</label>
+            <input type="text" class="form-control" id="TaskTitle" placeholder="Web Development" />
+          </div>
+          <div class="mb-3">
+            <label for="TaskType" class="form-label">Task Type</label>
+            <input type="text" class="form-control" id="TaskType" placeholder="Urgent / Practice" />
+          </div>
+          <div class="mb-3">
+            <label for="TaskDescription" class="form-label">Task Description</label>
+            <textarea class="form-control" id="TaskDescription" rows="3"
+              placeholder="This is DOM manipulation practice"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="addNewCard()" data-bs-dismiss="modal">Save Task</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary shadow">
+    <div class="container-fluid">
+      <a class="fs-3 fw-bolder" href="#">Tasky</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-3 me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+        </ul>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newtask">
+          <i class="fa-solid fa-plus"></i> Add New
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container mt-5">
+    <section class="row justify-content-center mb-4">
+      <div class="col-md-6">
+        <div class="input-group shadow">
+          <input type="search" class="form-control" placeholder="Search tasks..." />
+          <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="row task_container" id="taskContainer">
+      <!-- Task cards will appear here -->
+    </section>
+  </main>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
