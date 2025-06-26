@@ -17,12 +17,12 @@ const generateHTML =(taskData) =>`<div id=${taskData.id} class="col-md-6 col-lg-
           <div class="card-body">
           <img src=${taskData.image}
            alt="image" 
-           class="card-img"/>
+           class="card-img" onerror="this.src='fallback.jpg'"/>
             <h5 class="card-title mt-4">${taskData.title}</h5>
             <p class="card-text">${taskData.descripition}
 
             </p>
-            <span class="badge text-bg-primary">${taskData.type}</span></h6>
+            <span class="badge text-bg-primary">${taskData.type}</span>
           </div>
           <div class="card-footer">
             <button class="btn btn-outline-primary" name=${taskData.id} onclick="openTask.apply(this, arguments)">open task</button>
@@ -33,10 +33,10 @@ const generateHTML =(taskData) =>`<div id=${taskData.id} class="col-md-6 col-lg-
 const openTaskModal = (taskData) => {
     const date = new Date(parseInt(taskData.id));
     return `<div id=${taskData.id} >
-    <img src=${taskData.image} alt="image" class="img-fluid placeholder__image mb-3">
+    <img src=${taskData.image} alt="image" class="img-fluid placeholder__image mb-3" onerror="this.src='fallback.jpg'"/>
     <strong class=" text-sm text-muted ">Created on ${date.toDateString()}</strong>
     <h2 class="my-3">${taskData.title}</h2>
-    <p class="lead">${taskData.description}</p>
+    <p class="lead">${taskData.descripition}</p>
 </div>`;
 };
     
@@ -52,10 +52,10 @@ const addNewCard = () => {
     // get task data 1
     const taskData = {
        id:`${Date.now()}`,
-       title:document.getElementById("task title").value,
+       title:document.getElementById("tasktitle").value,
        image:document.getElementById("imageurl").value,
        type:document.getElementById("tasktype").value,
-       descripition:document.getElementById("Task description").value,
+       descripition:document.getElementById("Taskdescripition").value,
     };
 
     globalTaskData.push(taskData);
@@ -68,10 +68,10 @@ const addNewCard = () => {
 
 
     //clear the form
-    document.getElementById("task title").value=";"
+    document.getElementById("tasktitle").value="";
     document.getElementById("imageurl").value="";
     document.getElementById("tasktype").value="";
-    document.getElementById("Task description").value="";
+    document.getElementById("Taskdescripition").value="";
     return;
     
 };
@@ -175,7 +175,9 @@ const saveEdit =(event) => {
     taskTitle.setAttribute("contenteditable","false");
     taskDescripition.setAttribute("contenteditable","false");
     tasktype.setAttribute("contenteditable","false");
-    submitButton.innerHTML = "openTask";
+    submitButton.innerText = "Open Task";
+submitButton.setAttribute("onclick", "openTask.apply(this, arguments)");
+
 
 };
 const openTask = (event) => {
@@ -183,6 +185,9 @@ const openTask = (event) => {
 
     const getTask = globalTaskData.filter((task) => task.id === targetID);
     taskmodal.innerHTML = openTaskModal(getTask[0]);
+    const modal = new bootstrap.Modal(document.getElementById('showTask'));
+modal.show();
+
 
 };
 
@@ -196,7 +201,7 @@ searchBar.addEventListener("keyup", function (e) {
     const filteredCharacters = globalTaskData.filter((character) => {
         return (
             character.title.includes(searchString) ||
-            character.description.includes(searchString) ||
+            character.descripition.includes(searchString) ||
             character.type.includes(searchString)
         );
     });
@@ -208,12 +213,6 @@ searchBar.addEventListener("keyup", function (e) {
         insertToDOM(filteredCard);
     });
 });
-
-
-
-
-
-
 
   //stringify 
   //js object =>JSON
