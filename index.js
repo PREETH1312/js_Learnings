@@ -25,7 +25,7 @@ const generateHTML =(taskData) =>`<div id=${taskData.id} class="col-md-6 col-lg-
             <span class="badge text-bg-primary">${taskData.type}</span>
           </div>
           <div class="card-footer">
-            <button class="btn btn-outline-primary" name=${taskData.id} onclick="openTask.apply(this, arguments)">open task</button>
+            <button class="btn btn-outline-primary" name=${taskData.id} data-bs-toggle="modal" data-bs-target="#showTask" onclick="openTask.apply(this, arguments)">open task</button>
           </div>
         </div>
       </div>`;
@@ -185,8 +185,7 @@ const openTask = (event) => {
 
     const getTask = globalTaskData.filter((task) => task.id === targetID);
     taskmodal.innerHTML = openTaskModal(getTask[0]);
-    const modal = new bootstrap.Modal(document.getElementById('showTask'));
-modal.show();
+
 
 
 };
