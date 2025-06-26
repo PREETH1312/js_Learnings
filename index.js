@@ -1,4 +1,7 @@
-const taskContainer =document.querySelector(".task_container")
+const taskContainer =document.querySelector(".task_container");
+const taskmodal = document.querySelector(".task__modal__body");
+const searchBar = document.getElementById("searchBar");
+
 let globalTaskData =[];
 
 const generateHTML =(taskData) =>`<div id=${taskData.id} class="col-md-6 col-lg-4 my-4">
@@ -22,17 +25,28 @@ const generateHTML =(taskData) =>`<div id=${taskData.id} class="col-md-6 col-lg-
             <span class="badge text-bg-primary">${taskData.type}</span></h6>
           </div>
           <div class="card-footer">
-            <button class="btn btn-outline-primary" name=${taskData.id}>open task</button>
+            <button class="btn btn-outline-primary" name=${taskData.id} onclick="openTask.apply(this, arguments)">open task</button>
           </div>
         </div>
       </div>`;
 
+const openTaskModal = (taskData) => {
+    const date = new Date(parseInt(taskData.id));
+    return `<div id=${taskData.id} >
+    <img src=${taskData.image} alt="image" class="img-fluid placeholder__image mb-3">
+    <strong class=" text-sm text-muted ">Created on ${date.toDateString()}</strong>
+    <h2 class="my-3">${taskData.title}</h2>
+    <p class="lead">${taskData.description}</p>
+</div>`;
+};
+    
 
 const insertToDOM = (content) =>
         taskContainer.insertAdjacentHTML("beforeend", content);
 
 const saveToLocalStorage = () => 
   localStorage.setItem("tasky",JSON.stringify({card: globalTaskData}));
+
 
 const addNewCard = () => {
     // get task data 1
@@ -121,10 +135,10 @@ const editCard =(event) => {
       taskDescripition.setAttribute("contenteditable","true");
       tasktype.setAttribute("contenteditable","true");
       submitButton.setAttribute("onclick","saveEdit.apply(this, arguments)");
-      submitButton.innerHTML = "Save Changes";
    
 };
 const saveEdit =(event) => {
+  
    const targetID = event.target.getAttribute("name");
     const elementType =event.target.tagName;
 
@@ -161,9 +175,43 @@ const saveEdit =(event) => {
     taskTitle.setAttribute("contenteditable","false");
     taskDescripition.setAttribute("contenteditable","false");
     tasktype.setAttribute("contenteditable","false");
-    submitButton.innerHTML = "open Task";
+    submitButton.innerHTML = "openTask";
 
 };
+const openTask = (event) => {
+    const targetID = event.target.getAttribute("name");
+
+    const getTask = globalTaskData.filter((task) => task.id === targetID);
+    taskmodal.innerHTML = openTaskModal(getTask[0]);
+
+};
+
+searchBar.addEventListener("keyup", function (e) {
+    if (!e) e = window.event;
+    while (taskContainer.firstChild) {
+        taskContainer.removeChild(taskContainer.firstChild);
+    }
+    const searchString = e.target.value;
+
+    const filteredCharacters = globalTaskData.filter((character) => {
+        return (
+            character.title.includes(searchString) ||
+            character.description.includes(searchString) ||
+            character.type.includes(searchString)
+        );
+    });
+
+     filteredCharacters.map((careData) => {
+
+        const filteredCard = generateHTML(careData);
+
+        insertToDOM(filteredCard);
+    });
+});
+
+
+
+
 
 
 
